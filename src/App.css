@@ -1,38 +1,25 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+*{
+  /* background-color: rgb(33, 33, 33); */
+  /* color : white */
+  margin: 0px;
+  padding: 0px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.title{
+  color: rgb(151, 242, 14) ;
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a{
+  text-decoration: none;
+  color: rgb(151, 242, 14);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.banner{
+  background-image: url("https://static.vecteezy.com/system/resources/previews/004/674/997/original/abstract-green-light-shadow-geometric-on-dark-grey-design-modern-futuristic-technology-background-vector.jpg");
+  margin-top: 0px;
+  height: 100vm;
+  background-repeat : no-repeat;
+  background-size: cover;
 }
