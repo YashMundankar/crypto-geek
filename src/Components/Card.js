@@ -5,19 +5,13 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
 
 export default function ActionAreaCard(props) {
     return (
 
     // <Card sx={{ maxWidth: 250 }}>
-    <ThemeProvider theme={darkTheme}>
+    
     <Card variant='outlined' sx={{height:'300px' , width:'300px',borderRadius:'30px' ,textAlign:'center'}}>
       <CardActionArea>
         <CardContent>
@@ -43,6 +37,5 @@ export default function ActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
     </Card>
-    </ThemeProvider>
   );
 }
