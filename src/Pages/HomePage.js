@@ -6,9 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
-// import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Paper from '@mui/material/Paper';
 
 
 
@@ -20,30 +18,34 @@ const darkTheme = createTheme({
   },
 });
 
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 
 
 const HomePage = (props) => {
     const [search, setsearch] = useState('')
     const [page, setpage] = useState(1)
-    // console.log(props.data)
+    const [loading, setloading] = useState(true)
     const [coins, setcoins] = useState([])
+    const getCurrencySymbol=()=>{
+      if(props.currency==="INR") return "₹";
+      else if(props.currency==="USD") return "$";
+      else if(props.currency==="AUD") return "A$";
+    }
 
     useEffect(() => {
-        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=INR&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+        fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${props.currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
         .then(res=>{
           return res.json();
         }).then(data=>{
               setcoins(data);
-            //   setloading(false)
+              setloading(false)
     
         })
-        }, [])
+        }, [props.currency])
 
-
-
-    // setcoins([...props.data])
-    // let coins=props.data;
     const Search = () => {
         return coins.filter(
           (coin) =>
@@ -51,50 +53,32 @@ const HomePage = (props) => {
             coin.symbol.toLowerCase().includes(search)
         );
       }
-    // console.log(coins)
-
-    // const navigation = useNavigate();
-    // const handleNavigate=(id)=>{
-    //     navigation(`/${id}`)
-    // }
+ 
 
   return (
     <ThemeProvider theme={darkTheme}>
 
     <div style={{backgroundColor:'#1e1f1e'}}>
     <Banner/>
-    {
-        // `${}`
-    }
-    {/* {coins.map(coin=>(
-                    <div style={{margin:'10px'}}>
-                            <Card coin={coin}/>
-                    </div>
-                ))
-                } */}
     <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         marginTop="10px"
     >   
-        <TextField color='success' label="Search for the Currency" variant="outlined" sx={{width:'70%'}}
+        <TextField color='success' label="Search Crypto Currency..." variant="outlined" sx={{width:'70%'}}
         onChange={(e)=>{setsearch(e.target.value);console.log(search)}}></TextField>
     </Box>
-        {/* <div style={{dislplay:'flex',justifyContent:'center',alignItems:'center'}}>
-        </div> */}
-        {/* <Paper sx={{width:'100%',height:'100%',borderRadius:'0px'}}> */}
-
+       
         <div style={{
             display: 'flex',
             flexWrap: 'wrap',
             padding: '10px',
             alignItems: 'center',
             justifyContent: 'space-evenly',
-            // height:'100%'
             
         }}>
-        {props.loading?(  <div style={{height:'100vh'}}>
+        {loading?(  <div style={{height:'100vh'}}>
             <CircularProgress  style={{'color': '#41e156'}} />
             </div>
             ):(
@@ -102,7 +86,7 @@ const HomePage = (props) => {
                 Search().slice((page - 1) * 10, (page - 1) * 10 + 12).map(coin=>(
                     <Link to={coin.id} key={coin.id}>
                     <div  style={{margin:'10px'}}>
-                            <Card coin={coin}/>
+                            <Card coin={coin} getCurrencySymbol={getCurrencySymbol}/>
                     </div>
                     </Link>
                 ))

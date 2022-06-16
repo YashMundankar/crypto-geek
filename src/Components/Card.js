@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-
+import { numberWithCommas } from '../Pages/HomePage';
 
 export default function ActionAreaCard(props) {
     return (
@@ -23,16 +23,16 @@ export default function ActionAreaCard(props) {
           <Typography sx={{fontFamily:'Anton'}} gutterBottom variant="h5" component="div">
             {props.coin.name}
           </Typography>
-          <Typography variant="body2" color="text.primary">
+          <Typography variant="body2" color="text.primary" sx={{fontFamily:'Montserrat'}}>
             Market Cap Rank : {props.coin.market_cap_rank}
             <br />
-            Current Price : {props.coin.current_price}
+            Current Price : <span style={{fontWeight:'bold'}}>{props.getCurrencySymbol()}{ numberWithCommas( props.coin.current_price)}</span>
             <br />
-            Highest Past 24 Hrs. : {props.coin.high_24h}
+            Highest Past 24 Hrs. : <span style={{color:'#41e156'}}> {props.getCurrencySymbol()}{numberWithCommas(props.coin.high_24h)}</span>
             <br />
-            Lowest Past 24 Hrs. : {props.coin.low_24h}
+            Lowest Past 24 Hrs. :  <span style={{color:'red'}}>{props.getCurrencySymbol()}{numberWithCommas(props.coin.low_24h)}</span>
             <br />
-            Market Cap : {props.coin.market_cap}
+            Market Cap : {numberWithCommas(props.coin.market_cap)}
           </Typography>
         </CardContent>
       </CardActionArea>
