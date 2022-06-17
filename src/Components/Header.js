@@ -34,7 +34,7 @@ const Header = (props) => {
       <Toolbar>
         <Link to="/" style={{flexGrow: 1 }}>
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 , color: '#41e156', fontWeight:'bolder' ,fontFamily:'Anton',textShadow:'5px 5px black'}}>
-          Crypto-Pirate
+          Crypto-Geek
         </Typography>
         </Link>
     <Select color ='success' sx={{height: '30px',color:'#41e156',fontFamily:'Montserrat'}} onChange={handleChange} >

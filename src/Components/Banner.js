@@ -10,12 +10,14 @@ function Banner() {
          }}>
         <Box style={{height:'200px'}}>
             <h1 style={{color:'white',fontWeight:'bolder' , fontSize :'4rem',fontFamily:'Anton',textShadow:'5px 5px black'}}>
-                Crypto-Pirate
+                Crypto-Geek
             </h1>
+            <p  style={{opacity:'0.85', color:'white' , fontSize :'17px',fontFamily:'Montserrat',textShadow:'2px 2px black'}}>Track your favourite
+            <span style={{color:'#41e156'}}> Crypto Currency </span>and  <span style={{color:'#41e156'}}>Market Trend</span>. </p>
             <p style={{color:'#41e156',fontFamily:'Anton', fontSize:'25px', marginTop:"10px" ,textShadow:'2px 2px black'}}>
                 <Typewriter
                     options={{
-                    strings: ['“Not all treasure is silver and gold, mate.”','"In the search of modern day treasure."','“When a pirate grows rich enough, they make him a prince.”',`“Life’s pretty good, and why wouldn’t it be? I’m a pirate, after all.”`],
+                    strings: ['"Track"','"Invest"','"Grow"','“Not all treasure is silver and gold, mate.”','"In the search of modern day treasure."'],
                     autoStart: true,
                     loop: true,
                    }}
