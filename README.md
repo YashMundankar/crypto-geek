@@ -1,5 +1,5 @@
 # Hosted On Netlify : 
-      Link : https://crypto-geek-app.netlify.app/
+      https://crypto-geek-app.netlify.app/
 
 ## Available Scripts
 
