@@ -1,22 +1,25 @@
 import React from 'react'
-import { useState,useEffect } from 'react'
+import {useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Chart as ChartJS } from "chart.js/auto";
 import {Line} from 'react-chartjs-2'
 import { Button } from '@mui/material';
+import { useSelector ,useDispatch} from 'react-redux';
+import { updateHistoricalData,updateDays} from '../Redux/action/index';
 const Chart = (props) => {
-    const [historicalData, sethistoricalData] = useState([])
-    const [days, setDays] = useState(1)
-    const [flag,setflag] = useState(false);
+  const currency=useSelector((state)=>state.CurrencyReducer)
+  const historicalData=useSelector((state)=>state.HistoricalDataReducer)
+  const days=useSelector((state)=>state.DayReducer)
+  const dispatch=useDispatch()
 
     const handleDay=(day)=>{
-          setDays(day)
+          dispatch(updateDays(day))
     }
 
     useEffect(() => {
-       fetch(`https://api.coingecko.com/api/v3/coins/${props.id}/market_chart?vs_currency=${props.currency}&days=${days}`)
+       fetch(`https://api.coingecko.com/api/v3/coins/${props.id}/market_chart?vs_currency=${currency}&days=${days}`)
        .then(res=>res.json())
-       .then(data=>{sethistoricalData(data.prices);console.log(data.prices)});
+       .then(data=>{dispatch(updateHistoricalData(data.prices))});
     }, [days])
     
   return (
@@ -40,7 +43,7 @@ const Chart = (props) => {
                 datasets: [
                   {
                     data: historicalData.map((coin) => coin[1]),
-                    label: `Price ( Past ${days} Days ) in ${props.currency}`,
+                    label: `Price ( Past ${days} Days ) in ${currency}`,
                     borderColor: "#41e156",
                   },
                 ],

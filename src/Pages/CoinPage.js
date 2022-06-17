@@ -1,17 +1,15 @@
 import React from 'react'
-import {useState,useEffect} from 'react'
+import {useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import Paper from '@mui/material/Paper';
-// import axios from 'axios';
 import Box from '@mui/material/Box';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ReactHtmlParser from 'react-html-parser';
 import CircularProgress from '@mui/material/CircularProgress';
 import { numberWithCommas } from '../Pages/HomePage';
 import Chart from '../Components/Chart';
-
-// import { UserData } from "../Components/Data";
-// import LineChart from "../Components/LineChart";
+import { useSelector , useDispatch} from 'react-redux';
+import { updateSingleCoinData } from '../Redux/action';
 
 
 
@@ -22,42 +20,18 @@ const darkTheme = createTheme({
   },
 });
 
-const CoinPage = (props) => {
+const CoinPage = () => {
   let {id}=useParams(); 
+  const currency=useSelector((state)=>state.CurrencyReducer)
+  const coinData=useSelector((state)=>state.SingleCoinDataReducer)
+  const dispatch=useDispatch();
 
-
-  // const [userData, setUserData] = useState({
-  //   labels: UserData.map((data) => data.year),
-  //   datasets: [
-  //     {
-  //       label: "Users Gained",
-  //       data: UserData.map((data) => data.userGain),
-  //       backgroundColor: [
-  //         "rgba(75,192,192,1)",
-  //         "#ecf0f1",
-  //         "#50AF95",
-  //         "#f3ba2f",
-  //         "#2a71d0",
-  //       ],
-  //       borderColor: "black",
-  //       borderWidth: 2,
-  //     },
-  //   ],
-  // });
-
-  
-  const [coinData, setcoinData]=useState('')
   useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
     .then(res=>{
       return res.json();
     }).then(data=>{
-      // let nd=JSON.parse(data)
-      setcoinData(data);
-      // console.log(nd)
-      // console.log(nd)
-      // console.log(data)
-          // setloading(false)
+      dispatch(updateSingleCoinData(data));
           window.scroll({top: 0,
             left: 100,
             behavior: 'smooth'});
@@ -71,21 +45,18 @@ const CoinPage = (props) => {
   let {large}={...image}
   let marketData=coinData["market_data"];
   let {current_price}={...marketData}
-  // let curr="inr";
-  // console.log(current_price)
   let {inr,usd,aud}={...current_price}
-  // en=en.split(". ")[0]
 
   const getCurrentPrice=()=>{
-    if(props.currency==="INR") return inr;
-    else if(props.currency==="USD") return usd;
-    else if(props.currency==="AUD") return aud;
+    if(currency==="INR") return inr;
+    else if(currency==="USD") return usd;
+    else if(currency==="AUD") return aud;
   }
 
   const getCurrencySymbol=()=>{
-    if(props.currency==="INR") return "₹";
-    else if(props.currency==="USD") return "$";
-    else if(props.currency==="AUD") return "A$";
+    if(currency==="INR") return "₹";
+    else if(currency==="USD") return "$";
+    else if(currency==="AUD") return "A$";
   }
 
   return (
@@ -110,7 +81,6 @@ const CoinPage = (props) => {
        <div style={{marginTop:'10px' , fontFamily:'Montserrat',color:'#41e156',fontSize:'20px'}}>
         <p>Rank : {coinData.market_cap_rank}</p>
         <p>Current Price: {getCurrencySymbol()} {numberWithCommas( getCurrentPrice())}</p>
-        {/* <h2>Market Cap :</h2> */}
        </div>
        <p style={{width:'75%' ,margin:'auto',marginTop:'30px' ,padding:'10px' ,fontFamily:'Montserrat',fontSize:'20px'}}>
             {ReactHtmlParser(en.split(". ").slice(0,2))}.
@@ -118,8 +88,7 @@ const CoinPage = (props) => {
       </div>
 
 } 
-{/* <LineChart chartData={userData} /> */}
- <Chart id={id} currency={props.currency}></Chart>
+ <Chart id={id} currency={currency}></Chart>
 </Paper>
 
     </Box>

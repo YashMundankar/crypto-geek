@@ -1,17 +1,15 @@
 import React from 'react'
 import ".././App.css"
-// import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import Container from '@mui/material/Container';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCurrency } from '../Redux/action/index';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -22,9 +20,13 @@ const darkTheme = createTheme({
 
 
 
-const Header = (props) => {
+const Header = () => {
+
+  const currency=useSelector((state)=>state.CurrencyReducer)
+  const dispatch=useDispatch();
+  console.log(currency)
   const handleChange = (event) => {
-    props.setCurrency(event.target.value);
+    dispatch(updateCurrency(event.target.value))
   };
   return (
    <ThemeProvider theme={darkTheme}>

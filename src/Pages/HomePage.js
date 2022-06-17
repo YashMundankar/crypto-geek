@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState,useEffect} from 'react'
+import {useEffect} from 'react'
 import Banner from "../Components/Banner"
 import Card from "../Components/Card"
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,10 +7,11 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom';
-
+import { useSelector ,useDispatch} from 'react-redux';
 
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { updateSearch ,updatePage,updateLoad,updateCoins} from '../Redux/action';
 
 const darkTheme = createTheme({
   palette: {
@@ -24,27 +25,29 @@ export function numberWithCommas(x) {
 
 
 
-const HomePage = (props) => {
-    const [search, setsearch] = useState('')
-    const [page, setpage] = useState(1)
-    const [loading, setloading] = useState(true)
-    const [coins, setcoins] = useState([])
+const HomePage = () => {
+  let currency=useSelector((state)=>state.CurrencyReducer)
+  let search=useSelector((state)=>state.SearchReducer)
+  let page=useSelector((state)=>state.PageReducer)
+  let loading=useSelector((state)=>state.LoadReducer)
+  let coins=useSelector((state)=>state.CoinsReducer)
+  const dispatch=useDispatch();
     const getCurrencySymbol=()=>{
-      if(props.currency==="INR") return "₹";
-      else if(props.currency==="USD") return "$";
-      else if(props.currency==="AUD") return "A$";
+      if(currency==="INR") return "₹";
+      else if(currency==="USD") return "$";
+      else if(currency==="AUD") return "A$";
     }
 
     useEffect(() => {
-        fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${props.currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
+        fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
         .then(res=>{
           return res.json();
         }).then(data=>{
-              setcoins(data);
-              setloading(false)
+              dispatch(updateCoins(data));
+              dispatch(updateLoad(false))
     
         })
-        }, [props.currency])
+        }, [currency])
 
     const Search = () => {
         return coins.filter(
@@ -67,7 +70,7 @@ const HomePage = (props) => {
         marginTop="10px"
     >   
         <TextField color='success' label="Search Crypto Currency..." variant="outlined" sx={{width:'70%'}}
-        onChange={(e)=>{setsearch(e.target.value);console.log(search)}}></TextField>
+        onChange={(e)=>{(dispatch(updateSearch(e.target.value)));dispatch(updatePage(1))}}></TextField>
     </Box>
        
         <div style={{
@@ -94,7 +97,6 @@ const HomePage = (props) => {
                 )}
 
         </div>
-        {/* </Paper> */}
         <Box
         display="flex"
         justifyContent="center"
@@ -104,7 +106,7 @@ const HomePage = (props) => {
         >   
         
         <Pagination color="success" count={(Search().length / 10).toFixed(0)}  onChange={(_, value) => {
-            setpage(value);
+            dispatch(updatePage(value));
             window.scroll({top: 35,
                 left: 100,
                 behavior: 'smooth'});
